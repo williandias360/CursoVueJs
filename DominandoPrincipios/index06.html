@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>VueJS - Guia completo</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{curso}}</p>
+        <p v-html="curso"></p>
+    </div>
+    <!-- v-once: renderiza somente uma vez o elemento marcado -->
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                curso: 'Curso de <span style="color:red">VueJS</span>'
+            },
+        });
+    </script>
+</body>
+
+</html>

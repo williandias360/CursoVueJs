@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>VueJS - Guia completo</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p v-once>Nome inteiro: {{nome}} </p>
+        <p>Nome: {{ getNome() }}</p>
+    </div>
+    <!-- v-once: renderiza somente uma vez o elemento marcado -->
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                nome: 'Willian Dias Brito'
+            },
+            methods: {
+                getNome: function () {
+                    this.nome = 'Willian';
+                    return this.nome;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

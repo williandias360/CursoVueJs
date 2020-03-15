@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>VueJS - Guia completo</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button v-on:click="incrementar">Clique</button>
+        <p>Botão clicado {{ cliques }} vezes</p>
+        <p v-on:mousemove="atualizarCoordenadas">Coordenadas x: {{x}} e y: {{y}}</p>
+    </div>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/API/Event
+    https://developer.mozilla.org/en-US/docs/Web/Events -->
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                cliques: 0,
+                x: 0,
+                y: 0
+            },
+            methods: {
+                incrementar: function (event) {
+                    console.log(event);
+                    this.cliques++;
+                },
+                atualizarCoordenadas: function (event) {
+                    this.x = event.clientX;
+                    this.y = event.clientY;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

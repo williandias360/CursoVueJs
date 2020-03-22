@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>VueJS - Guia completo</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <style>
+        .caixa {
+            width: 200px;
+            height: 200px;
+            display: inline-block;
+            margin-right: 10px;
+            background-color: gray;
+        }
+
+        .coral {
+            background-color: lightcoral;
+        }
+
+        .verde {
+            background-color: lightgreen;
+        }
+
+        .azul {
+            background-color: lightblue;
+        }
+
+        .circulo {
+            border-radius: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="caixa" :class="{ coral: aplicarClasse }" @click="aplicarClasse = !aplicarClasse"></div>
+        <div :class="nomeDaClasse" class="caixa"></div>
+        <div @click="aplicarClasse = !aplicarClasse" class="caixa" :class="classesCSS"></div>
+        <div class="caixa" :class="['circulo', nomeDaClasse, {verde: aplicarClasse}]"></div>
+        <input v-model="nomeDaClasse" placeholder="Nome da classe CSS">
+    </div>
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                aplicarClasse: false,
+                nomeDaClasse: ""
+            },
+            computed: {
+                classesCSS: function () {
+                    return {
+                        azul: this.aplicarClasse,
+                        circulo: this.aplicarClasse,
+                        verde: !this.aplicarClasse
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

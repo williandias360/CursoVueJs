@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>VueJS - Guia completo</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>Nome original: {{ curso }}</p>
+        <p>Nome invertido (computed): {{ cursoInvertidoComputed }}</p>
+        <p>Nome invertido (method): {{ cursoInvertidoMethod() }}</p>
+        <p>Autor: {{ nomeDoAutorInteiro ? 'Willian Dias Brito' : 'Willian'}} </p>
+        <button @click="nomeDoAutorInteiro = !nomeDoAutorInteiro">Alterar nome do autor</button>
+        <br>
+        <input @keyup.enter="alterarNomeDoCurso">
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                curso: 'Curso de VueJs',
+                nomeDoAutorInteiro: false
+            },
+            methods: {
+                alterarNomeDoCurso: function (event) {
+                    this.curso = event.target.value;
+                },
+                cursoInvertidoMethod: function () {
+                    console.log("Method");
+                    return this.curso.split('').reverse().join('')
+                }
+            },
+            computed: {
+                cursoInvertidoComputed: function () {
+                    console.log("Computed");
+                    return this.curso.split('').reverse().join('')
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

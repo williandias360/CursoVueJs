@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>VueJS - Guia completo</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <a v-bind:href="docs">VueJS</a>
+        <br>
+        <button v-on:click="onClick">Clique</button>
+        <hr>
+
+        <a :href="docs">VueJS</a>
+        <br>
+        <button @click="onClick">Clique</button>
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                docs: "https://vuejs.org"
+            },
+            methods: {
+                onClick: (event) => {
+                    console.log("Evento: ", event.type);
+                }
+            }
+
+        });
+    </script>
+</body>
+
+</html>

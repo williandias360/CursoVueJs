@@ -18,20 +18,21 @@
             <button type="submit" v-on:click.prevent="onSubmit">Enviar com modificador</button>
         </form>
         </form>
-        <script type="text/javascript">
-            new Vue({
-                el: '#app',
-                methods: {
-                    onClick: function (elementoAlvo, event) {
-                        console.log(event.type, ':', elementoAlvo);
-                    },
-                    onSubmit: function (event) {
-                        console.log("Formulário enviado");
-                    }
+    </div>
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            methods: {
+                onClick: function (elementoAlvo, event) {
+                    console.log(event.type, ':', elementoAlvo);
+                },
+                onSubmit: function (event) {
+                    console.log("Formulário enviado");
                 }
+            }
 
-            });
-        </script>
+        });
+    </script>
 </body>
 
 </html>

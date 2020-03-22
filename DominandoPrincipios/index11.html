@@ -9,15 +9,27 @@
 <body>
     <div id="app">
         <input v-on:keyup="onKey" placeholder="Qualquer tecla">
-        <script type="text/javascript">
-            new Vue({
-                el: '#app',
-                methods: {
-                    onKey: (event) => console.log("Tecla " + event.key + " pressionada!")
-                }
+        <br>
+        <input v-on:keyup.enter="onKey" placeholder="Tecla Enter">
+        <br>
+        <input v-on:keyup.enter.esc="onKey" placeholder="Tecla Enter ou Escape">
+        <br>
+        ArrowUp
+        <input v-on:keyup.arrow-up="onKey" placeholder="Tecla seta para cima">
+        <br>
+        <input v-on:keyup.ctrl.enter="onKey" placeholder="Teclas Control + Enter">
+        <br>
+        <input v-on:keyup.ctrl.enter.exact="onKey" placeholder="Teclas Control + Enter (exact)">
+    </div>
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            methods: {
+                onKey: (event) => console.log("Tecla " + event.key + " pressionada!")
+            }
 
-            });
-        </script>
+        });
+    </script>
 </body>
 
 </html>

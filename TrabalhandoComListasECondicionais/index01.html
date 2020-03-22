@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Curso VueJS</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p v-if="nota === 'A'">Parabens, você tirou um "A"!</p>
+        <p v-else-if="nota === 'B'">Você tirou "B", mas pode melhorar</p>
+        <p v-else-if="nota === 'C'">Você precisa melhorar, estude mais. Sua nota: "C"</p>
+        <p v-else>Nota ainda não publicada</p>
+        <input v-model="nota" placeholder="Nota">
+    </div>
+    <script type="text/javascript">
+
+        new Vue({
+            el: '#app',
+            data: {
+                nota: ''
+            }
+        });
+
+    </script>
+</body>
+
+</html>

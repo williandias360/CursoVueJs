@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Curso VueJS</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="login = !login">Toogle</button>
+        <template v-if="login">
+            <label>Login:</label>
+            <input placeholder="Login" key="campo-login">
+        </template>
+        <template v-else>
+            <label>E-mail:</label>
+            <input placeholder="E-mail" key="campo-email">
+        </template>
+    </div>
+    <script type="text/javascript">
+
+        new Vue({
+            el: '#app',
+            data: {
+                login: true
+            }
+        });
+
+    </script>
+</body>
+
+</html>

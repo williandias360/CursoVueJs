@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Curso VueJS</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="mostrar = !mostrar">Toogle</button>
+        <p v-show="mostrar">Diretiva v-show "{{ mostrar }}"</p>
+    </div>
+    <script type="text/javascript">
+
+        new Vue({
+            el: '#app',
+            data: {
+                mostrar: true
+            }
+        });
+
+    </script>
+</body>
+
+</html>

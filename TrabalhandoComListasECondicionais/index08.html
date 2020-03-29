@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Curso VueJS</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Produtos</h1>
+        <ul>
+            <li v-for="valor in produto">{{valor}}</li>
+        </ul>
+        <ul>
+            <li v-for="(valor, chave) in produto">{{chave}}: {{valor}}</li>
+        </ul>
+        <ul>
+            <li v-for="(valor, chave, indice) in produto">{{indice}}.{{chave}}: {{valor}}</li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+
+        new Vue({
+            el: '#app',
+            data: {
+                produto: {
+                    id: 1,
+                    nome: "Teclado",
+                    marca: "Dell",
+                    valor: 100
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

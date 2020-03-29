@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Curso VueJS</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <style>
+        .separador {
+            list-style: none;
+            border-bottom: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>Produtos:</p>
+        <ul>
+            <template v-for="produto in produtos">
+                <li>{{produto.nome}}</li>
+                <li class="separador"></li>
+            </template>
+        </ul>
+    </div>
+    <script type="text/javascript">
+
+        new Vue({
+            el: '#app',
+            data: {
+                produtos: [
+                    { id: 1, nome: "Monitor" },
+                    { id: 2, nome: "Teclado" },
+                    { id: 3, nome: "Mouse" },
+                    { id: 4, nome: "Processador" },
+                ],
+            },
+            methods: {
+                addProduto: function () {
+                    var id = this.produtos.length + 1;
+                    this.produtos.push({ id: id, nome: `Produto ${id}` });
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

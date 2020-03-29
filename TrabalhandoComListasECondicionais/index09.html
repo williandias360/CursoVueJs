@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Curso VueJS</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Numeros</h1>
+        <ul>
+            <li v-for="(valor, indice) in 30">{{indice}}: {{ valor }}</li>
+        </ul>
+
+    </div>
+    <script type="text/javascript">
+
+        new Vue({
+            el: '#app',
+            data: {
+
+            }
+        });
+
+    </script>
+</body>
+
+</html>

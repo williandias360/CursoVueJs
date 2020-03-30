@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Curso VueJS</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <h1>Tarefas:</h1>
+        <ul>
+            <li v-for="tarefa in tarefas" :key="tarefa.id" v-if="!tarefa.completa">{{tarefa.titulo}}</li>
+        </ul>
+        <h1>Tarefas a fazer:</h1>
+        <ul v-if="tarefasIncompletas.length">
+            <li v-for="tarefa in tarefasIncompletas" :key="tarefa.id">{{tarefa.titulo}}</li>
+        </ul>
+        <p v-else>Não existem tarefas a fazer.</p>
+    </div>
+    <script type="text/javascript">
+
+        new Vue({
+            el: '#app',
+            data: {
+                tarefas: [
+                    { id: 1, titulo: "Aprender JavaScript", completa: true },
+                    { id: 2, titulo: "Aprender VueJS", completa: false },
+                    { id: 3, titulo: "Aprender Vuex", completa: true },
+                    { id: 4, titulo: "Aprender VueRouter", completa: true },
+                ]
+            },
+            computed: {
+                tarefasIncompletas: function () {
+                    return this.tarefas.filter(tarefa => !tarefa.completa);
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

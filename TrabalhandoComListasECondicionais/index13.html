@@ -9,7 +9,14 @@
 
 <body>
     <div id="app">
-
+        <h1>Produtos</h1>
+        <ul>
+            <li v-for="produto in produtos" :key="produto.id">{{produto.nome}}</li>
+        </ul>
+        <button @click="adicionarProduto">Adicionar Produto</button>
+        <button @click="produtos = produtos.slice(0, 4)">Substituir array</button>
+        <button @click="substituirProduto">Substituir produto</button>
+        <button @click="cortarArray">Cortar array</button>
     </div>
     <script type="text/javascript">
 
@@ -22,6 +29,26 @@
                     { id: 3, nome: "Mouse" },
                     { id: 4, nome: "Processador" },
                 ]
+            },
+            methods: {
+                adicionarProduto: function (event) {
+                    var id = this.produtos.length + 1;
+                    this.produtos.push({ id: id, nome: `Produto ${id}` });
+                },
+                substituirProduto: function (event) {
+                    var tamanho = this.produtos.length;
+                    var indice = Math.round(tamanho / 2);
+                    var produto = { id: (tamanho + 1), nome: `Produto ${(tamanho + 1)}` };
+                    console.log(tamanho, indice);
+                    //this.produtos[indice] = produto; Não reativo
+                    //Vue.set(this.produtos, indice, produto);
+                    //this.$set(this.produtos, indice, produto);
+                    this.produtos.splice(indice, 1, produto);
+                },
+                cortarArray: function (event) {
+                    // this.produtos.length = 2; Não reativo
+                    this.produtos.splice(2);
+                }
             }
         });
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Curso VueJS</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <p>Objetos:</p>
+        <ul>
+            <li v-for="(valor, chave) in produto">{{chave}}: {{valor}}</li>
+        </ul>
+        <button @click="adicionarPropriedade">Adicionar propriedade</button>
+        <button @click="substituirObjeto">Substituir objeto</button>
+    </div>
+    <script type="text/javascript">
+
+        new Vue({
+            el: '#app',
+            data: {
+                produto: {
+                    id: 2,
+                    nome: "Teclado",
+                    marcar: "Dell"
+                },
+                usuario: {
+                    nome: '',
+                    idade: 0
+                }
+            },
+            methods: {
+                adicionarPropriedade: function (event) {
+                    //Vue.set(this.produto, 'preco', 100);
+                    this.$set(this.produto, 'preco', 100);
+                },
+                substituirObjeto: function (event) {
+                    // Object.assign(this.produto, {
+                    //     preco: 50,
+                    //     cor: "preto"
+                    // }); // Não é reativo
+                    this.produto = Object.assign({}, this.produto, {
+                        preco: 50,
+                        cor: "preto"
+                    });
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

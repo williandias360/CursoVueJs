@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>VueJS - Guia completo</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h2>{{curso}}</h2>
+    </div>
+
+    <div id="app2"></div>
+
+    <script type="text/javascript">
+        var vm = new Vue({
+
+            data: {
+                curso: "Curso de VueJS"
+            },
+        });
+
+        //vm.$mount("#app");
+        setTimeout(function () {
+            vm.$mount("#app");
+        }, 3000);
+
+        var vm2 = new Vue({
+            template: "<h2>Usando template</h2>"
+        });
+
+        //vm2.$mount("#app2");
+
+        vm2.$mount();
+        document.getElementById("app2").appendChild(vm2.$el);
+
+    </script>
+
+</body>
+
+</html>

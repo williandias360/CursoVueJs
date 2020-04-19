@@ -1,58 +1,12 @@
 import Vue from 'vue'
+import App from './App.vue'
+import AppContador from './AppContador.vue'
 
 
-/*Vue.component('wdb-component', {
-  data: function () {
-    return {
-      titulo: 'Curso de VuJs',
-      contador: 0
-    }
-  },
-  methods: {
-    incrementar: function () {
-      this.contador++
-    }
-  },
-  template: `
-    <div>
-      <h1>{{ titulo }}</h1>
-      <button @click="incrementar">Clicado {{contador}}</button>
-    </div>
-      
-    `
-})*/
-
-const wdbComponent = {
-  data: function () {
-    return {
-      titulo: 'Curso de VuJs',
-      contador: 0
-    }
-  },
-  methods: {
-    incrementar: function () {
-      this.contador++
-    }
-  },
-  template: `
-    <div>
-      <h1>{{ titulo }}</h1>
-      <button @click="incrementar">Clicado {{contador}}</button>
-    </div>
-      
-    `
-}
+Vue.component('app-contador', AppContador)
 
 new Vue({
-  el: '#app1',
-  components: {
-    'wdb-component': wdbComponent
-  }
+  el: '#app',
+  render: h => h(App)
 })
 
-new Vue({
-  el: '#app2',
-  components: {
-    'wdb-component': wdbComponent
-  }
-})

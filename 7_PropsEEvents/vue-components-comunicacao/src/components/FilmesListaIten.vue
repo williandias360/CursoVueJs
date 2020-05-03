@@ -1,32 +1,33 @@
 <template>
   <li class="list-group-item">
-    <span>{{filmeTituloConcatenado}} | {{ano}}</span>
-    <button class="btn btn-success float-right">Editar</button>
+    <span>{{filme.titulo}} | {{filme.ano}}</span>
+    <button @click="selecionar" class="btn btn-secondary float-right">Selecionar</button>
   </li>
 </template>
 
 <script>
 export default {
   props: {
-    titulo: {
-      type: String,
-      required: true
-      //   default(){
-      //       return 'Vingadores'
-      //   },
-    },
-    ano: {
-      type: Number,
+    // titulo: {
+    //   type: String,
+    //   required: true
+    //   //   default(){
+    //   //       return 'Vingadores'
+    //   //   },
+    // },
+    // ano: {
+    //   type: Number,
+    //   required: true
+    // }
+    filme: {
+      type: Object,
       required: true
     }
   },
-  computed: {
-    filmeTituloConcatenado() {
-      return `Titulo: ${this.titulo}`;
+  methods:{
+    selecionar(){
+      this.$emit("selecionarFilme", this.filme)
     }
-  },
-  created() {
-    console.log(typeof this.titulo);
   }
 };
 </script>

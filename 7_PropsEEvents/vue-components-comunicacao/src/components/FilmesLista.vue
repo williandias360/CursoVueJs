@@ -19,19 +19,23 @@
 
     <!-- coluna 2 -->
     <div class="col-4">
-      <FilmesListaItenInfo :filme="filmeSelecionado" />
+      <FilmesListaItenInfo v-if="!editar" @editarFilme="editarFilme" />
+      <FilmesListaItenEditar v-else :filme="filmeSelecionado" />
     </div>
   </div>
 </template>
 
 <script>
+import { eventBus } from "./../main";
 import FilmesListaIten from "./FilmesListaIten.vue";
 import FilmesListaItenInfo from "./FilmesListaItenInfo.vue";
+import FilmesListaItenEditar from "./FilmesListaItenEditar.vue";
 
 export default {
   components: {
     FilmesListaIten,
-    FilmesListaItenInfo
+    FilmesListaItenInfo,
+    FilmesListaItenEditar
   },
   data() {
     return {
@@ -51,15 +55,31 @@ export default {
         { id: 3, titulo: "Pantera Negra", ano: 2018, diretor: "Stan Lee" },
         { id: 4, titulo: "DeadPool 2", ano: 2018, diretor: "Stan Lee" }
       ],
-      filmeSelecionado: undefined
+      filmeSelecionado: undefined,
+      editar: false
     };
   },
   methods: {
     aplicarClasseAtiva(filmeIterado) {
       return {
-        active: this.filmeSelecionado && this.filmeSelecionado.id === filmeIterado.id
-      }
+        active:
+          this.filmeSelecionado && this.filmeSelecionado.id === filmeIterado.id
+      };
+    },
+    editarFilme(filme) {
+      this.editar = true;
+      this.filmeSelecionado = filme;
+    },
+    atualizarFilme(filmeAtualizado){
+      const indice = this.filmes.findIndex(filme => filme.id === filmeAtualizado.id)
+      this.filmes.splice(indice, 1, filmeAtualizado)
+      this.filmeSelecionado = undefined;
+      this.editar = false
     }
+  },
+  created(){
+    eventBus.$on("selecionarFilme", (filmeSelecionado) => this.filmeSelecionado = filmeSelecionado)
+    eventBus.$on("atualizarFilme", this.atualizarFilme)
   }
 };
 </script>

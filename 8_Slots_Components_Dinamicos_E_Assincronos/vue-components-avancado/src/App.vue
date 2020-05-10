@@ -1,26 +1,65 @@
 <template>
   <div id="app" class="container">
-    <h1>Vue JS</h1>
-    <Post>
-      <!-- Customizando os components
-      Cria um component como container. Pode passar qualquer html-->
-      <h2 slot="cabecalho">Components no Vue</h2>
+    <h1>Components Dinamicos</h1>
+    <button @click="componentSelecionado = 'Home'">Home</button>
+    <button @click="componentSelecionado = 'PostsLista'">Posts</button>
+    <button @click="componentSelecionado = 'Sobre'">Sobre</button>
+    <button @click="componentSelecionado = 'Assincrono'">Assincrono</button>
 
-      <p>Components são umas das peças mais importantes no VueJs</p>
-      <span>...</span>
+    <keep-alive :exclude="['Home','PostsLista']">
+      <component :is="componentSelecionado" v-bind="propsAtuais"></component>
+    </keep-alive>
+    <!-- <PostsLista :posts="posts"/>
 
-      <small slot="rodape">por Willian Dias</small>
+    <hr>
 
-      <!-- <template slot="botao">Detalhes</template> -->
-    </Post>
+    <h1>Slots com escopo</h1>
+
+    <PostsLista :posts="posts" v-slot="{ meuPost }">
+        <h2>{{meuPost.titulo}}</h2>
+        <p>{{meuPost.conteudo}}</p>
+        <small>{{meuPost.autor}}</small>
+      
+    </PostsLista>-->
   </div>
 </template>
 
 <script>
-import Post from "./components/Post.vue";
+import Home from "./components/Home.vue";
+import PostsLista from "./components/PostsLista.vue";
+import Sobre from "./components/Sobre.vue";
 export default {
   components: {
-    Post
+    Assincrono:() => import('./components/Assincrono.vue'),
+    Home,
+    PostsLista,
+    Sobre
+  },
+  data() {
+    return {
+      componentSelecionado: "Home",
+      posts: [
+        {
+          id: 1,
+          titulo: "Components no Vue",
+          conteudo: "Componentes não uma das peças mais importantes no Vue",
+          autor: "Willian Dias"
+        },
+        {
+          id: 2,
+          titulo: "Distribuindo conteúdo com Slots",
+          conteudo: "Slots podem ser usados como repostiórios de código HTML",
+          autor: "Willian"
+        }
+      ]
+    };
+  },
+  computed: {
+    propsAtuais() {
+      return this.componentSelecionado === "PostsLista"
+        ? { posts: this.posts }
+        : {};
+    }
   }
 };
 </script>

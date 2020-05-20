@@ -30,7 +30,18 @@ import PostsLista from "./components/PostsLista.vue";
 import Sobre from "./components/Sobre.vue";
 export default {
   components: {
-    Assincrono:() => import('./components/Assincrono.vue'),
+    Assincrono: () => ({
+      component: new Promise(reject => {
+        setTimeout(() => {
+          //resolve(import("./components/Assincrono.vue"));
+          reject("Carregamento falou");
+        }, 2000);
+      }), //import("./components/Assincrono.vue"),
+      loading: { template: "<p>Carregando</p>" },
+      error: { template: "<p>Erro ao carregar component</p>" },
+      delay: 200,
+      timeout: 3000
+    }),
     Home,
     PostsLista,
     Sobre

@@ -5,6 +5,7 @@
     <button @click="componentSelecionado = 'PostsLista'">Posts</button>
     <button @click="componentSelecionado = 'Sobre'">Sobre</button>
     <button @click="componentSelecionado = 'Assincrono'">Assincrono</button>
+    <button @click="componentSelecionado = 'Contato'">Contato</button>
 
     <keep-alive :exclude="['Home','PostsLista']">
       <component :is="componentSelecionado" v-bind="propsAtuais"></component>
@@ -28,20 +29,30 @@
 import Home from "./components/Home.vue";
 import PostsLista from "./components/PostsLista.vue";
 import Sobre from "./components/Sobre.vue";
+
+const Contato = {
+  render:h => h({
+    name:"ContatoDados",
+    template:"<h2>Component Anonimo</h2>"
+  })
+}
+
+
 export default {
   components: {
     Assincrono: () => ({
-      component: new Promise(reject => {
+      component: new Promise((resolve) => {
         setTimeout(() => {
-          //resolve(import("./components/Assincrono.vue"));
-          reject("Carregamento falou");
-        }, 2000);
+          resolve(import("./components/Assincrono.vue"));
+          // reject("Carregamento falhou");
+        }, 3000);
       }), //import("./components/Assincrono.vue"),
       loading: { template: "<p>Carregando</p>" },
       error: { template: "<p>Erro ao carregar component</p>" },
       delay: 200,
       timeout: 3000
     }),
+    Contato,
     Home,
     PostsLista,
     Sobre

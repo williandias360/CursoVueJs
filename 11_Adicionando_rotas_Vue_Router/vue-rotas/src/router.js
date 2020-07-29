@@ -1,38 +1,108 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-import Contatos from "./views/contatos/Contatos"
-import ContatoDetalhes from "./views/contatos/ContatoDetalhes"
-import ContatosHome from "./views/contatos/ContatosHome"
-import ContatoEditar from "./views/contatos/ContatoEditar"
-import Home from "./views/Home"
+import Contatos from "./views/contatos/Contatos";
+import ContatoDetalhes from "./views/contatos/ContatoDetalhes";
+import ContatosHome from "./views/contatos/ContatosHome";
+import ContatoEditar from "./views/contatos/ContatoEditar";
+import Home from "./views/Home";
+import Erro404 from "./views/Erro404";
+import Erro404Contatos from "./views/contatos/Erro404Contatos";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-export default new VueRouter({
-    mode: "history",
-    linkActiveClass: "active",
-    routes: [{
-        path: "/contatos",
-        component: Contatos,
-        children: [
-            {
-                path: ":id",
-                component: ContatoDetalhes,
-                name: "contato"
-            }, {
-                path: ":id/editar",
-                components: {
-                    default: ContatoEditar,
-                    'contato-detalhe': ContatoDetalhes
-                },
-            }, {
-                path: "",
-                component: ContatosHome
-            }
-        ]
-    }, {
-        path: "/",
-        component: Home
-    }]
-})
+const extrairParametroId = (route) => ({
+  id: +route.params.id,
+});
+
+const router = new VueRouter({
+  mode: "history",
+  linkActiveClass: "active",
+  routes: [
+    {
+      path: "/contatos",
+      component: Contatos,
+      alias: ["/meus-contatos", "/lista-de-contatos"],
+      props: (route) => {
+        const busca = route.query.busca;
+        return busca ? { busca } : {};
+      },
+      children: [
+        {
+          path: ":id(\\d+)",
+          component: ContatoDetalhes,
+          name: "contato",
+          props: extrairParametroId,
+          //props: true
+          // props: {
+          //     id: 10
+          // }
+        },
+        {
+          //path: ":id(\\d+)/editar/:opcional?",
+          //   path: ":id(\\d+)/editar/:zeroOuMais*",
+          //path: ":id(\\d+)/editar/:umOuMais+",
+          path: ":id(\\d+)/editar",
+          alias: ":id(\\d+)/alterar",
+          beforeEnter: (to, from, next) => {
+            console.log("beforeEnter");
+            //next(); //Continuando a navegação
+            //next(true);//Continuando a navegação
+            //next(false); //Bloqueando a navegação
+            //next("/contatos");//Redirecionando a navegação
+            //next({ name: "contato" }); //Redirecionar a navegação
+            next(
+              new Error(
+                `Permissões insuficientes para acessar o recurso "${to.fullPath}"`
+              )
+            ); //Lançar uma mensagem de erro
+          },
+          components: {
+            default: ContatoEditar,
+            "contato-detalhe": ContatoDetalhes,
+          },
+          props: {
+            default: extrairParametroId,
+            "contato-detalhe": extrairParametroId,
+          },
+        },
+        {
+          path: "",
+          component: ContatosHome,
+          name: "contatos",
+        },
+        { path: "*", component: Erro404Contatos },
+      ],
+    },
+    { path: "/home", component: Home },
+    //{ path: "/", redirect: "/contatos" }
+    {
+      path: "/",
+      redirect: () => {
+        //return "/contatos"
+        return { name: "contatos" };
+      },
+    },
+    { path: "*", component: Erro404 },
+  ],
+});
+
+router.beforeEach((to, from, next) => {
+  console.log("beforeEach");
+  next();
+});
+
+router.afterEach(() => {
+  console.log("afterEach");
+});
+
+router.beforeResolve((to, from, next) => {
+  console.log("beforeResolve");
+  next();
+});
+
+router.onError((erro) => {
+  console.log(erro);
+});
+
+export default router;

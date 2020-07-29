@@ -8,6 +8,9 @@ import ContatoEditar from "./views/contatos/ContatoEditar";
 import Home from "./views/Home";
 import Erro404 from "./views/Erro404";
 import Erro404Contatos from "./views/contatos/Erro404Contatos";
+import Login from "./views/login/Login";
+
+import EventBus from "./event-bus";
 
 Vue.use(VueRouter);
 
@@ -44,18 +47,19 @@ const router = new VueRouter({
           //path: ":id(\\d+)/editar/:umOuMais+",
           path: ":id(\\d+)/editar",
           alias: ":id(\\d+)/alterar",
+          meta: { requerAutenticacao: true },
           beforeEnter: (to, from, next) => {
             console.log("beforeEnter");
-            //next(); //Continuando a navegação
+            next(); //Continuando a navegação
             //next(true);//Continuando a navegação
             //next(false); //Bloqueando a navegação
             //next("/contatos");//Redirecionando a navegação
             //next({ name: "contato" }); //Redirecionar a navegação
-            next(
-              new Error(
-                `Permissões insuficientes para acessar o recurso "${to.fullPath}"`
-              )
-            ); //Lançar uma mensagem de erro
+            // next(
+            //   new Error(
+            //     `Permissões insuficientes para acessar o recurso "${to.fullPath}"`
+            //   )
+            // ); //Lançar uma mensagem de erro
           },
           components: {
             default: ContatoEditar,
@@ -75,6 +79,7 @@ const router = new VueRouter({
       ],
     },
     { path: "/home", component: Home },
+    { path: "/login", component: Login },
     //{ path: "/", redirect: "/contatos" }
     {
       path: "/",
@@ -89,6 +94,15 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   console.log("beforeEach");
+  console.log("Requer autenticação?", to.meta.requerAutenticacao);
+  const estaAutenticado = EventBus.autenticado;
+  console.log("Está autenticado", estaAutenticado);
+  if (to.matched.some((rota) => rota.meta.requerAutenticacao)) {
+    if (!estaAutenticado) {
+      next({ path: "/login", query: { redirecionar: to.fullPath } });
+      return;
+    }
+  }
   next();
 });
 

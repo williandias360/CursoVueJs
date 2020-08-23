@@ -1,14 +1,23 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import Contatos from "./views/contatos/Contatos";
-import ContatoDetalhes from "./views/contatos/ContatoDetalhes";
-import ContatosHome from "./views/contatos/ContatosHome";
-import ContatoEditar from "./views/contatos/ContatoEditar";
-import Home from "./views/Home";
+//import Contatos from "./views/contatos/Contatos";
+//import ContatoDetalhes from "./views/contatos/ContatoDetalhes";
+//import ContatosHome from "./views/contatos/ContatosHome";
+//import ContatoEditar from "./views/contatos/ContatoEditar";
 import Erro404 from "./views/Erro404";
 import Erro404Contatos from "./views/contatos/Erro404Contatos";
 import Login from "./views/login/Login";
+
+const Contatos = () =>
+  import(/*webpackChunkName: "contatos"*/ "./views/contatos/Contatos.vue");
+const ContatoEditar = () =>
+  import(/*webpackChunkName: "contatos"*/ "./views/contatos/ContatoEditar");
+const ContatosHome = () =>
+  import(/*webpackChunkName: "contatos"*/ "./views/contatos/ContatosHome");
+const ContatoDetalhes = () =>
+  import(/*webpackChunkName: "contatos"*/ "./views/contatos/ContatoDetalhes");
+const Home = () => import("./views/Home");
 
 import EventBus from "./event-bus";
 

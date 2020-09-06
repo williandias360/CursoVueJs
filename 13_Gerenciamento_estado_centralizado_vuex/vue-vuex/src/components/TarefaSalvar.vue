@@ -18,11 +18,7 @@
         <div class="col-sm-2" v-if="tarefa">
           <div class="form-group">
             <label>Tarefa concluída?</label>
-            <button
-              type="button"
-              class="btn btn-sm d-block"
-              :class="classeBotao"
-            >
+            <button type="button" class="btn btn-sm d-block" :class="classeBotao">
               <i class="fa fa-check"></i>
             </button>
           </div>
@@ -51,6 +47,14 @@ export default {
     classeColuna() {
       return this.tarefa ? "col-sm-10" : "col-sm-12";
     },
+  },
+  created() {
+    if (this.tarefa) {
+      console.log(
+        "Tarefa por id: ",
+        this.$store.getters.buscarTarefaPorId(this.tarefa.id)
+      );
+    }
   },
   methods: {
     salvar() {

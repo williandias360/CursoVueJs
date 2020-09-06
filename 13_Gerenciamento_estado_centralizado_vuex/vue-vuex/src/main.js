@@ -1,6 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
-import store from "@/store";
+import store from "./store";
 
 import BootStrap from "bootstrap-vue/dist/bootstrap-vue.esm";
 

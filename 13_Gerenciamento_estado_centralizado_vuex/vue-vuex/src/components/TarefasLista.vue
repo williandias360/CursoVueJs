@@ -5,23 +5,18 @@
         <h1 class="font-weight-light">Lista de Tarefas</h1>
       </div>
       <div class="col-sm-2">
-        <button
-          class="btn btn-primary float-right"
-          @click="exibirFormularioCriarTarefa"
-        >
+        <button class="btn btn-primary float-right" @click="exibirFormularioCriarTarefa">
           <i class="fa fa-plus mr-2"></i>
           <span>Criar</span>
         </button>
       </div>
     </div>
 
-    <h3 class="font-weight-light">
-      A Fazer ({{ $store.getters.tarefasAFazer.length }})
-    </h3>
+    <h3 class="font-weight-light">A Fazer ({{ tarefasAFazer.length }})</h3>
 
-    <ul class="list-group" v-if="$store.getters.tarefasAFazer.length > 0">
+    <ul class="list-group" v-if="tarefasAFazer.length > 0">
       <TarefaListaIten
-        v-for="tarefa in $store.getters.tarefasAFazer"
+        v-for="tarefa in tarefasAFazer"
         :key="tarefa.id"
         :tarefa="tarefa"
         @editar="selecionarTarefaParaEdicao"
@@ -30,9 +25,7 @@
 
     <p v-else-if="!mensagemErro">Nenhuma tarefa a fazer</p>
 
-    <h3 class="font-weight-light">
-      Concluidas ({{ $store.getters.totalDeTarefasConcluidas }})
-    </h3>
+    <h3 class="font-weight-light">Concluidas ({{ totalDeTarefasConcluidas }})</h3>
 
     <ul class="list-group" v-if="tarefasConcluidas.length > 0">
       <TarefaListaIten
@@ -52,7 +45,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import TarefaSalvar from "./TarefaSalvar";
 import TarefaListaIten from "./TarefasListaIten";
 
@@ -70,11 +63,49 @@ export default {
   },
   computed: {
     ...mapState(["tarefas"]),
-    tarefasConcluidas() {
-      return this.$store.getters.tarefasConcluidas;
-    },
+    ...mapGetters([
+      "tarefasAFazer",
+      "tarefasConcluidas",
+      "totalDeTarefasConcluidas",
+    ]),
+  },
+  created() {
+    /*this.$store.commit({
+      type: "listarTarefas",
+      tarefas: [
+        { id: 1, titulo: "Aprender Vue", concluido: true },
+        { id: 2, titulo: "Aprender Vue Router", concluido: true },
+        { id: 3, titulo: "Aprender Vuex", concluido: false },
+      ],
+    });*/
+    setTimeout(async () => {
+      // this.$store.dispatch("listarTarefas", {
+      //   tarefas: [
+      //     { id: 1, titulo: "Aprender Vue", concluido: true },
+      //     { id: 2, titulo: "Aprender Vue Router", concluido: true },
+      //     { id: 3, titulo: "Aprender Vuex", concluido: false },
+      //   ],
+      // });
+      // this.$store.dispatch("listarTarefas").then(() => {
+      //   console.log("Actions executadas");
+      // });
+      await this.listarTarefas();
+      console.log("Actions executadas");
+    }, 1000);
   },
   methods: {
+    ...mapActions({
+      carregarTarefas: "listarTarefas",
+      listarTarefas: (dispatch, payload, options) => {
+        return dispatch("listarTarefas", payload, options);
+      },
+    }),
+    // ...mapMutations({
+    //   //carregarTarefas: "listarTarefas",
+    //   // listarTarefas: (commit, payload, options) => {
+    //   //   commit("listarTarefas", payload, options);
+    //   // },
+    // }),
     exibirFormularioCriarTarefa() {
       if (this.tarefaSelecionada) {
         this.tarefaSelecionada = undefined;

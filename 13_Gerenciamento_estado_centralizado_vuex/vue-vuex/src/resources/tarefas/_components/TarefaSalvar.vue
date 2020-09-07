@@ -52,7 +52,7 @@ export default {
     if (this.tarefa) {
       console.log(
         "Tarefa por id: ",
-        this.$store.getters.buscarTarefaPorId(this.tarefa.id)
+        this.$store.getters["tarefas/buscarTarefaPorId"](this.tarefa.id)
       );
     }
   },

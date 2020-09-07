@@ -19,12 +19,12 @@ export default {
   },
   //computed: mapState(["contador"]),
   computed: {
-    ...mapState({
-      contador: (state) => state.contador.contador,
+    ...mapState("contador", {
+      contador: (state) => state.contador,
       // contador: "contador",
-      contadorAlias: (state) => state.contador.contador,
+      contadorAlias: (state) => state.contador,
       contadorMultiplicado(state) {
-        return state.contador.contador * this.contadorLocal;
+        return state.contador * this.contadorLocal;
       },
     }),
     //outras computedProperts

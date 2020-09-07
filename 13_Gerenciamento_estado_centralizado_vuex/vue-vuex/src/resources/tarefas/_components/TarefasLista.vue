@@ -45,9 +45,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+
 import TarefaSalvar from "./TarefaSalvar";
 import TarefaListaIten from "./TarefasListaIten";
+
+const { mapState, mapActions, mapGetters } = createNamespacedHelpers("tarefas");
 
 export default {
   components: {
@@ -67,6 +70,7 @@ export default {
       "tarefasAFazer",
       "tarefasConcluidas",
       "totalDeTarefasConcluidas",
+      "boasVindas",
     ]),
   },
   created() {
@@ -89,9 +93,13 @@ export default {
       // this.$store.dispatch("listarTarefas").then(() => {
       //   console.log("Actions executadas");
       // });
+      console.log("Usuario atual: ", this.boasVindas);
       await this.listarTarefas();
       console.log("Actions executadas");
+
+      console.log("Usuario atual: ", this.boasVindas);
     }, 1000);
+    console.log("Boas vindas: ", this.boasVindas);
   },
   methods: {
     ...mapActions({

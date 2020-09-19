@@ -20,6 +20,8 @@
         :key="tarefa.id"
         :tarefa="tarefa"
         @editar="selecionarTarefaParaEdicao"
+        @concluir="concluirTarefa({tarefa:$event})"
+        @deletar="confirmarRemocaoTarefa"
       />
     </ul>
 
@@ -33,6 +35,8 @@
         :key="tarefa.id"
         :tarefa="tarefa"
         @editar="selecionarTarefaParaEdicao"
+        @concluir="concluirTarefa({tarefa:$event})"
+        @deletar="confirmarRemocaoTarefa"
       />
     </ul>
 
@@ -40,13 +44,16 @@
 
     <div class="alert alert-danger" v-else>{{ mensagemErro }}</div>
 
-    <TarefaSalvar v-if="exibirFormulario" :tarefa="tarefaSelecionada" />
+    <TarefaSalvar v-if="exibirFormulario" @salvar="salvarTarefa" />
+
+    <div class="alert alert-danger" v-if="erro">{{erro.message}}</div>
   </div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from "vuex";
 
+import register from "./../_store/register";
 import TarefaSalvar from "./TarefaSalvar";
 import TarefaListaIten from "./TarefasListaIten";
 
@@ -60,12 +67,11 @@ export default {
   data() {
     return {
       exibirFormulario: false,
-      tarefaSelecionada: undefined,
       mensagemErro: undefined,
     };
   },
   computed: {
-    ...mapState(["tarefas"]),
+    ...mapState(["tarefaSelecionada", "erro"]),
     ...mapGetters([
       "tarefasAFazer",
       "tarefasConcluidas",
@@ -74,60 +80,52 @@ export default {
     ]),
   },
   created() {
-    /*this.$store.commit({
-      type: "listarTarefas",
-      tarefas: [
-        { id: 1, titulo: "Aprender Vue", concluido: true },
-        { id: 2, titulo: "Aprender Vue Router", concluido: true },
-        { id: 3, titulo: "Aprender Vuex", concluido: false },
-      ],
-    });*/
-    setTimeout(async () => {
-      // this.$store.dispatch("listarTarefas", {
-      //   tarefas: [
-      //     { id: 1, titulo: "Aprender Vue", concluido: true },
-      //     { id: 2, titulo: "Aprender Vue Router", concluido: true },
-      //     { id: 3, titulo: "Aprender Vuex", concluido: false },
-      //   ],
-      // });
-      // this.$store.dispatch("listarTarefas").then(() => {
-      //   console.log("Actions executadas");
-      // });
-      console.log("Usuario atual: ", this.boasVindas);
-      await this.listarTarefas();
-      console.log("Actions executadas");
-
-      console.log("Usuario atual: ", this.boasVindas);
-    }, 1000);
-    console.log("Boas vindas: ", this.boasVindas);
+    register(this.$store);
+    this.listarTarefas();
   },
   methods: {
-    ...mapActions({
-      carregarTarefas: "listarTarefas",
-      listarTarefas: (dispatch, payload, options) => {
-        return dispatch("listarTarefas", payload, options);
-      },
-    }),
-    // ...mapMutations({
-    //   //carregarTarefas: "listarTarefas",
-    //   // listarTarefas: (commit, payload, options) => {
-    //   //   commit("listarTarefas", payload, options);
-    //   // },
-    // }),
+    ...mapActions([
+      "criarTarefa",
+      "editarTarefa",
+      "concluirTarefa",
+      "listarTarefas",
+      "deletarTarefa",
+      "selecionarTarefa",
+      "resetarTarefaSelecionada",
+    ]),
+    confirmarRemocaoTarefa(tarefa) {
+      const confirmar = window.confirm(
+        `Deseja deletar a tarefa "${tarefa.titulo}"?`
+      );
+      if (confirmar) {
+        this.deletarTarefa({ tarefa });
+      }
+    },
     exibirFormularioCriarTarefa() {
       if (this.tarefaSelecionada) {
-        this.tarefaSelecionada = undefined;
+        this.resetarTarefaSelecionada();
         return;
       }
       this.exibirFormulario = !this.exibirFormulario;
     },
     resetar() {
-      this.tarefaSelecionada = undefined;
+      this.resetarTarefaSelecionada();
       this.exibirFormulario = false;
     },
     selecionarTarefaParaEdicao(tarefa) {
-      this.tarefaSelecionada = tarefa;
       this.exibirFormulario = true;
+      this.selecionarTarefa({ tarefa });
+    },
+    async salvarTarefa(event) {
+      switch (event.operacao) {
+        case "criar":
+          await this.criarTarefa({ tarefa: event.tarefa });
+          break;
+        case "editar":
+          await this.editarTarefa({ tarefa: event.tarefa });
+          break;
+      }
+      this.resetar();
     },
   },
 };

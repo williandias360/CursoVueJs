@@ -6,21 +6,14 @@
       class="btn btn-sm mr-4"
       :class="classeCss"
       :title="tituloBotaoConcluido"
+      @click="$emit('concluir', tarefa)"
     >
       <i class="fa fa-check"></i>
     </button>
-    <button
-      class="btn btn-primary btn-sm mr-1"
-      title="Editar"
-      @click="$emit('editar', tarefa)"
-    >
+    <button class="btn btn-primary btn-sm mr-1" title="Editar" @click="$emit('editar', tarefa)">
       <i class="fa fa-pencil-alt"></i>
     </button>
-    <button
-      class="btn btn-danger btn-sm"
-      title="Deletar"
-      @click="$emit('deletar', tarefa)"
-    >
+    <button class="btn btn-danger btn-sm" title="Deletar" @click="$emit('deletar', tarefa)">
       <i class="fa fa-trash"></i>
     </button>
   </li>

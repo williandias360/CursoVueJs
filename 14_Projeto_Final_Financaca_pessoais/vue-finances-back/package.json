@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/index",
+    "dev": "npx nodemon --delay 1000ms --ext js,graphql src/index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,5 +14,8 @@
   "dependencies": {
     "graphql-yoga": "1.17.4",
     "prisma-client-lib": "1.28.3"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.10"
   }
 }

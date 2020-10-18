@@ -8,6 +8,8 @@ services:
     environment:
       PRISMA_ENDPOINT: http://prisma:4466
       JWT_SECRET: ${JWT_SECRET}
+      PRISMA_SERVICE: ${PRISMA_SERVICE}
+      PRISMA_STAGE: ${PRISMA_STAGE}
     command: npm run dev
     volumes:
       - .:/user/app
@@ -28,14 +30,17 @@ services:
             user: prisma
             password: prisma
             migrations: true
+            rawAccess: true
 
   postgres:
     image: postgres:10.3
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
     volumes:
       - postgres:/var/lib/postgressql/data
 volumes:
-  postgres:
+  ? postgres

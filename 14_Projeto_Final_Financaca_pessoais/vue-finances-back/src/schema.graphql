@@ -14,10 +14,10 @@ type Query {
   ): [Record!]!
   user: User
   users: [User]
-    """
-    Year, Month and Day, format "YYYY-MM-DD" e.g: 2020-10-17
-    """
-  totalBalance:(date:Date!):Float!
+  """
+  Year, Month and Day, format "YYYY-MM-DD" e.g: 2020-10-24
+  """
+  totalBalance(date: Date!): Float!
 }
 
 type Mutation {

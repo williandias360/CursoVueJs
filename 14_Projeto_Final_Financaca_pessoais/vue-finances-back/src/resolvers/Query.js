@@ -89,9 +89,6 @@ function records(
 
     AND = [...AND, { date_gte: startDate }, { date_lte: endDate }];
 
-    console.log("Base Date", date.toISOString());
-    console.log("Star Date", startDate);
-    console.log("End Date", endDate);
   }
 
   return context.db.query.records(
@@ -114,7 +111,8 @@ function users(parent, args, context, info) {
   return context.db.query.users();
 }
 
-function totalBalance(parent,{date}, context, info){
+function totalBalance(parent, {date}, context, info) {
+
   const userId = getUserId(context);
   const dateISO = moment(date, 'YYYY-MM-DD').endOf("day").toISOString();
   const pgSchema = `${process.env.PRISMA_SERVICE}$${process.env.PRISMA_STAGE}`;
@@ -128,7 +126,7 @@ function totalBalance(parent,{date}, context, info){
   const variables = {
     database:"default",
     query:`
-    select SUM(amount) as totalBalance 
+    select SUM("${pgSchema}"."Record"."amount") as totalbalance 
       from "${pgSchema}"."Record"
       
       inner join "${pgSchema}"."_RecordToUser" 
@@ -140,13 +138,10 @@ function totalBalance(parent,{date}, context, info){
     `
   };
 
-  console.log("pgSchema", pgSchema);
-  console.log("query:", variables.query);
 
   return context.prisma.$graphql(mutation, variables)
   .then(response => {
-    console.log("Response:", response);
-    const totalBalance = response.executeRaw[0].totalBalance;
+    const totalBalance = response.executeRaw[0].totalbalance;
     return totalBalance ? totalBalance : 0;
   });
 }

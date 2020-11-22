@@ -11,17 +11,21 @@
       </v-layout>
     </v-container>
 
+    <AppFloatingButton />
+
   </div>
 </template>
 
 <script>
 import AppToolbar from './AppToolbar'
 import AppMenu from './AppMenu'
+import AppFloatingButton from './AppFloatingButton'
 export default {
   name: 'AppLayout',
   components: {
     AppToolbar,
-    AppMenu
+    AppMenu,
+    AppFloatingButton
   },
   data: () => ({
     drawer: false

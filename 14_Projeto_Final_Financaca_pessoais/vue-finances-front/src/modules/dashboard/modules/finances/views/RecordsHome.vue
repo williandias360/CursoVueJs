@@ -1,3 +1,13 @@
 <template>
-  <h1>Lançamentos</h1>
+  <RecordList />
 </template>
+
+<script>
+import RecordList from './../componentes/RecordsList'
+export default {
+  name: 'RecordsHome',
+  components: {
+    RecordList
+  }
+}
+</script>

@@ -66,7 +66,7 @@ function createRecord(_, args, context, info) {
             id: args.categoryId,
           },
         },
-        amount: args.amount,
+        amount: args.type == 'DEBIT' ?  (args.amount * -1) : args.amount,
         type: args.type,
         date: args.date,
         description: args.description,

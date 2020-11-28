@@ -10,7 +10,10 @@
         md4
         lg4
       >
-        <p>Amount</p>
+        <NumericDisplay
+          :color="color"
+          v-model="$v.record.amount.$model"
+        />
       </v-flex>
       <v-flex
         xs12
@@ -21,6 +24,47 @@
         <v-card>
           <v-card-text>
             <v-form>
+
+              <v-dialog
+                ref="dateDialog"
+                v-model="showDateDialog"
+                :return-value.sync="record.date"
+                persistent
+                width="290px"
+              >
+                <template v-slot:activator="{ on }">
+
+                  <v-text-field
+                    name="date"
+                    label="Vencimento"
+                    prepend-icon="event"
+                    type="text"
+                    readonly
+                    :value="formattedDate"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+
+                <v-date-picker
+                  :color="color"
+                  locale="pt-br"
+                  scrollable
+                  v-model="dateDialogValue"
+                >
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    :color="color"
+                    @click="cancelDateDialog"
+                  >Cancelar</v-btn>
+                  <v-btn
+                    text
+                    :color="color"
+                    @click="$refs.dateDialog.save(dateDialogValue)"
+                  >Ok</v-btn>
+                </v-date-picker>
+              </v-dialog>
+
               <v-select
                 name="account"
                 label="Conta"
@@ -116,6 +160,7 @@
           fab
           class="mt-4 mr-4"
           @click="submit"
+          :disabled="$v.$invalid"
         >
           <v-icon>check</v-icon>
         </v-btn>
@@ -132,13 +177,19 @@ import { mapActions } from 'vuex'
 
 import AccountServices from './../services/accounts-services'
 import CategoriesServices from './../services/categories-services'
+import NumericDisplay from './../components/NumericDisplay'
+import RecordService from './../services/records-services'
 
 export default {
   name: 'RecordsAdd',
+  components: {
+    NumericDisplay
+  },
   data () {
     return {
       accounts: [],
       categories: [],
+      dateDialogValue: moment().format('YYYY-MM-DD'),
       record: {
         type: this.$route.query.type.toUpperCase(),
         amount: 0,
@@ -149,6 +200,7 @@ export default {
         tags: '',
         note: ''
       },
+      showDateDialog: false,
       showTagsInput: false,
       showNoteInput: false
     }
@@ -173,12 +225,16 @@ export default {
         default:
           return 'primary'
       }
+    },
+    formattedDate () {
+      return moment(this.record.date).format('DD/MM/YYYY')
     }
   },
   async beforeRouteUpdate (to, from, next) {
     const { type } = to.query
     this.changeTitle(type)
     this.record.type = type.toUpperCase()
+    this.record.categoryId = ''
     this.categories = await CategoriesServices.categories({ operation: type })
     next()
   },
@@ -189,6 +245,10 @@ export default {
   },
   methods: {
     ...mapActions(['setTitle']),
+    cancelDateDialog () {
+      this.showDateDialog = false
+      this.dateDialogValue = this.record.date
+    },
     changeTitle (recordType) {
       let title
       switch (recordType) {
@@ -204,8 +264,14 @@ export default {
       }
       this.setTitle({ title })
     },
-    submit () {
-      console.log('Form:', this.record)
+    async submit () {
+      try {
+        const record = await RecordService.createRecord(this.record)
+        console.log('Record', record)
+        this.$router.push('/dashboard/records')
+      } catch (e) {
+        console.log('Error creating record', e)
+      }
     }
   }
 

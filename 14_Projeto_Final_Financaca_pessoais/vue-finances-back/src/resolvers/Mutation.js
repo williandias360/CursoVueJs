@@ -47,6 +47,14 @@ function createRecord(_, args, context, info) {
     throw new Error("Invalid date!");
   }
 
+  let {amount, type} = args
+  if(
+      (type === "DEBIT" && amount > 0) ||
+      (type === "CREDIT" && amount < 0)
+    ){
+    amount = -amount
+  }
+
   const userId = getUserId(context);
   return context.db.mutation.createRecord(
     {
@@ -66,8 +74,8 @@ function createRecord(_, args, context, info) {
             id: args.categoryId,
           },
         },
-        amount: args.type == 'DEBIT' ?  (args.amount * -1) : args.amount,
-        type: args.type,
+        amount,
+        type,
         date: args.date,
         description: args.description,
         tags: args.tags,

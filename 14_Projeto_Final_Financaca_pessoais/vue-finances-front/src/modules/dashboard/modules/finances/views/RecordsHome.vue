@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import RecordList from './../componentes/RecordsList'
+import RecordList from './../components/RecordsList'
 import { mapActions } from 'vuex'
 export default {
   name: 'RecordsHome',
